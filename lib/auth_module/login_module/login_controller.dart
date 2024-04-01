@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:project/auth_module/login_module/login_model.dart';
-import 'package:project/dashboard_module/models/product_model.dart';
 import 'package:project/utilities/dio/api_end_points.dart';
 import 'package:project/utilities/dio/api_request.dart';
 
 class LoginController extends GetxController with StateMixin<LoginModel> {
 
-
   Future<num> login({required String email, required String password}) async {
+    final prefs = GetStorage();
+
     final apiEndPoint = APIEndPoints.login;
 
     debugPrint("---------- $apiEndPoint  Start ----------");
@@ -33,6 +34,11 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       debugPrint("status is ${response.data["status"]}");
 
       if (response.data["status"] == 1) {
+
+        prefs.write("IS_LOGGED_IN", true);
+        prefs.write("USER_ID", response.data['id']);
+        prefs.write('TOKEN', response.data['token']);
+
         final modal = LoginModel.fromJson(response.data);
         change(modal, status: RxStatus.success());
       }
@@ -41,7 +47,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       debugPrint("login  Error $error ");
       change(null, status: RxStatus.error());
     } finally {
-      debugPrint("---------- $apiEndPoint login End ----------");
+      debugPrint("---------- $apiEndPoint  End ----------");
     }
 
     return state?.status ?? 0;

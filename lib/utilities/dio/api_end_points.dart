@@ -13,6 +13,8 @@ class APIEndPoints {
 
   static String login = 'login';
   static String dummyData = 'dymmyData';
+  static String dashboard = 'dashboard';
+  static String productDetail = 'productDetail';
   static String notification = 'getNotificationData';
   static String getSofasData = 'getSofasData';
 }

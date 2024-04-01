@@ -11,5 +11,6 @@ class GoPaths {
   static const String notification = '/notification';
   static const String productDetailView = '/productDetailView';
   static const String onboardingQuestions = '/onboardingQuestions';
+  static const String chooseMockTestScreen = '/chooseMockTestScreen';
 
 }

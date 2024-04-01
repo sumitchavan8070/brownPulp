@@ -77,145 +77,209 @@ class _MyCartState extends State<MyCart> {
         leadingPopAll: true,
         isProfileView: false,
       ),
-      body: Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final item = data[index];
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.14,
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: AppBoxDecoration.getBoxDecoration(
-                  color: AppColors.aquaHaze,
-                  showShadow: false,
-                  borderRadius: 12,
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(item["image"].toString()),
-                    Flexible(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 6),
-                                Text(
-                                  item["title"].toString(),
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  item["subtitle"].toString(),
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                        color: AppColors.black,
-                                      ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "\$${item["price"]}",
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.deepSeaGreen, fontWeight: FontWeight.w600, fontSize: 20),
-                                ),
-                              ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final item = data[index];
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.14,
+                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: AppBoxDecoration.getBoxDecoration(
+                    color: AppColors.aquaHaze,
+                    showShadow: false,
+                    borderRadius: 12,
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(item["image"].toString()),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    item["title"].toString(),
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    item["subtitle"].toString(),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          color: AppColors.black,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    "\$${item["price"]}",
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          color: AppColors.deepSeaGreen,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20,
+                                        ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Obx(
-                            () {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        addAndSubtract("add", index);
-                                      },
-                                      child: SvgPicture.asset(AssetPath.add),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(itemCount[index].toString()),
-                                    const SizedBox(height: 4),
-                                    GestureDetector(
+                            Obx(
+                              () {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          addAndSubtract("add", index);
+                                        },
+                                        child: SvgPicture.asset(
+                                          AssetPath.add,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        itemCount[index].toString(),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      GestureDetector(
                                         onTap: () {
                                           addAndSubtract("sub", index);
                                         },
-                                        child: SvgPicture.asset(AssetPath.sub)),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                                        child: SvgPicture.asset(
+                                          AssetPath.sub,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Subtotal: ", // Display total price with 2 decimal places
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: AppColors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 40),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total: ", // Display total price with 2 decimal places
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w600,
+                      Obx(
+                        () => Text(
+                          "\$${calculateTotalPrice().round()}", // Display total price with 2 decimal places
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
                       ),
-                ),
-                Obx(
-                  () => Text(
-                    "\$${calculateTotalPrice().round()}", // Display total price with 2 decimal places
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Transport fee: ", // Display total price with 2 decimal places
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: AppColors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      Obx(
+                        () => Text(
+                          "\$${calculateTotalPrice().round()}", // Display total price with 2 decimal places
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: AppColors.aquaHaze,
+              thickness: 2,
+              endIndent: 18,
+              indent: 18,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total: ", // Display total price with 2 decimal places
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.w600,
                         ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            height: 1,
-            color: AppColors.aquaHaze,
-            thickness: 2,
-            endIndent: 18,
-            indent: 18,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-            child: ElevatedButton(
-              onPressed: () {
-                // Add your button press logic here
-              },
-              // Button label
-              style: getElevatedButtonStyle(
-                borderRadius: 40,
-                foregroundColor: AppColors.plantation,
-                backgroundColor: AppColors.plantation,
-                elevation: 0,
-              ),
-              child: Text(
-                "Continue",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.white,
+                  Obx(
+                    () => Text(
+                      "\$${calculateTotalPrice().round()}", // Display total price with 2 decimal places
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Add your button press logic here
+                },
+                // Button label
+                style: getElevatedButtonStyle(
+                  borderRadius: 40,
+                  foregroundColor: AppColors.plantation,
+                  backgroundColor: AppColors.plantation,
+                  elevation: 0,
+                ),
+                child: Text(
+                  "Check out",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: AppColors.white,
+                      ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

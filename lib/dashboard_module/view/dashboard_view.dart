@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:project/components/bottom_navigation_bar.dart';
+import 'package:project/dashboard_module/controller/dashboard_controller.dart';
 import 'package:project/dashboard_module/controller/product_controller.dart';
 import 'package:project/utilities/constants/cached_image_container.dart';
 import 'package:project/utilities/constants/scroll_container.dart';
@@ -12,6 +13,7 @@ import 'package:project/utilities/theme/app_colors.dart';
 import 'package:project/utilities/theme/asset_path.dart';
 
 final _getProductsController = Get.put(ProductController());
+final _dashboardController = Get.put(DashBoardController());
 
 class DashBoardView extends StatefulWidget {
   const DashBoardView({super.key});
@@ -21,6 +23,8 @@ class DashBoardView extends StatefulWidget {
 }
 
 class _DashBoardViewState extends State<DashBoardView> {
+  // Uint8List imageBytes = your image as byte;
+
   final svgImages = [
     AssetPath.sofa,
     AssetPath.chair,
@@ -48,7 +52,8 @@ class _DashBoardViewState extends State<DashBoardView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _dashboardController.dashboard();
       _getProductsController.getProducts();
     });
   }
@@ -77,10 +82,10 @@ class _DashBoardViewState extends State<DashBoardView> {
                         "Explore What Your Home Needs",
                         textAlign: TextAlign.start,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppColors.onyx,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 26,
-                            ),
+                          color: AppColors.onyx,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 26,
+                        ),
                       ),
                     ),
                     GestureDetector(
@@ -116,20 +121,22 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Categories",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AppColors.onyx,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
+                        color: AppColors.onyx,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
+                      },
                       child: Row(
                         children: [
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  color: AppColors.plantation,
-                                ),
+                              color: AppColors.plantation,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -142,27 +149,52 @@ class _DashBoardViewState extends State<DashBoardView> {
                 ),
               ),
               const SizedBox(height: 12),
-              Marquee(
-                maxHeight: 60,
-                offset: 5 * 8,
-                children: List.generate(
-                  svgImages.length,
-                  (index) {
-                    final assetName = svgImages[index];
-                    return Container(
-                      height: MediaQuery.of(context).size.width * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.30,
-                      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: AppBoxDecoration.getBoxDecoration(
-                        showShadow: false,
-                      ),
-                      child: Image.asset(
-                        assetName,
-                      ),
-                    );
-                  },
-                ),
-              ),
+              _dashboardController.obx((state) {
+                return
+
+                  Marquee(
+                    maxHeight: 68,
+                    offset: 40,
+                    children: List.generate(
+                      state?.categories?.length ?? 0,
+                          (index) {
+                        final item = state?.categories?[index];
+                        return GestureDetector(
+                          onTap:  () {
+                            MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.30,
+                            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: AppBoxDecoration.getBoxDecoration(
+                              showShadow: false,
+                            ),
+                            child:  CachedImageNetworkContainer(
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * 0.42,
+                              height: MediaQuery.of(context).size.height * 0.16,
+                              decoration: AppBoxDecoration.getBoxDecoration(
+                                showShadow: false,
+                                shadowColor: Colors.grey.withOpacity(0.5),
+                                borderRadius: 0,
+                                spreadRadius: 1,
+                              ),
+                              url: item?.image ?? '',
+                              placeHolder: const SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.fadedOrange,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+              }),
               const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
@@ -172,10 +204,10 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Chair",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AppColors.onyx,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
+                        color: AppColors.onyx,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {},
@@ -184,8 +216,8 @@ class _DashBoardViewState extends State<DashBoardView> {
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  color: AppColors.plantation,
-                                ),
+                              color: AppColors.plantation,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -197,104 +229,111 @@ class _DashBoardViewState extends State<DashBoardView> {
                   ],
                 ),
               ),
-              _getProductsController.obx((state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: List.generate(2 ?? 0, (index) {
-                    final getData = state?.result?[index];
-                    final imageData = bpCards[index];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        getData?.length ?? 0,
-                        (index) {
-                          final data = getData?[index];
-                          final image = imageData[index];
+              _getProductsController.obx(
+                    (state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: List.generate(2 ?? 0, (index) {
+                      final getData = state?.result?[index];
+                      final imageData = bpCards[index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          getData?.length ?? 0,
+                              (index) {
+                            final data = getData?[index];
+                            final image = imageData[index];
 
-                          return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            decoration: AppBoxDecoration.getBoxDecoration(
-                              showShadow: true,
-                              borderRadius: 16,
-                            ),
-                            child: Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // CachedImageNetworkContainer(
-                                    //   fit: BoxFit.cover,
-                                    //   width: MediaQuery.of(context).size.width * 0.42,
-                                    //   height: MediaQuery.of(context).size.height * 0.16,
-                                    //   decoration: AppBoxDecoration.getBoxDecoration(
-                                    //     showShadow: false,
-                                    //     shadowColor: Colors.grey.withOpacity(0.5),
-                                    //     borderRadius: 0,
-                                    //     spreadRadius: 1,
-                                    //   ),
-                                    //   url: data?.image ?? '',
-                                    //   placeHolder: const SizedBox(
-                                    //     height: 50,
-                                    //     width: 50,
-                                    //     child: CircularProgressIndicator(
-                                    //       color: AppColors.fadedOrange,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    Image.asset(image),
-                                    Text(
-                                      data?.name ?? "",
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                            color: AppColors.darkJungleGreen,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                    Text(
-                                      "Item: 248",
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            color: AppColors.stormDust,
-                                          ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(AssetPath.star),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              "4.9",
-                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                    color: AppColors.stormDust,
-                                                  ),
-                                            ),
-                                          ],
+                            return Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              width: MediaQuery.of(context).size.width * 0.40,
+                              decoration: AppBoxDecoration.getBoxDecoration(
+                                showShadow: true,
+                                borderRadius: 16,
+                              ),
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // CachedImageNetworkContainer(
+                                      //   fit: BoxFit.cover,
+                                      //   width: MediaQuery.of(context).size.width * 0.42,
+                                      //   height: MediaQuery.of(context).size.height * 0.16,
+                                      //   decoration: AppBoxDecoration.getBoxDecoration(
+                                      //     showShadow: false,
+                                      //     shadowColor: Colors.grey.withOpacity(0.5),
+                                      //     borderRadius: 0,
+                                      //     spreadRadius: 1,
+                                      //   ),
+                                      //   url: data?.image ?? '',
+                                      //   placeHolder: const SizedBox(
+                                      //     height: 50,
+                                      //     width: 50,
+                                      //     child: CircularProgressIndicator(
+                                      //       color: AppColors.fadedOrange,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      Image.asset(image),
+                                      Text(
+                                        data?.name ?? "",
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          color: AppColors.darkJungleGreen,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                        Text(
-                                          data?.price ?? "-",
-                                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                color: AppColors.deepSeaGreen,
-                                                fontWeight: FontWeight.w600,
+                                      ),
+                                      Text(
+                                        "Item: 248",
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          color: AppColors.stormDust,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(AssetPath.star),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                "4.9",
+                                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                  color: AppColors.stormDust,
+                                                ),
                                               ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                SvgPicture.asset(AssetPath.wishList),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }),
-                );
-              }),
+                                            ],
+                                          ),
+                                          Text(
+                                            data?.price ?? "-",
+                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                              color: AppColors.deepSeaGreen,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  SvgPicture.asset(AssetPath.wishList),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }),
+                  );
+                },
+                onLoading: const SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                 child: Row(
@@ -303,10 +342,10 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Popular",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AppColors.onyx,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
+                        color: AppColors.onyx,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {},
@@ -315,8 +354,8 @@ class _DashBoardViewState extends State<DashBoardView> {
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  color: AppColors.plantation,
-                                ),
+                              color: AppColors.plantation,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -337,12 +376,14 @@ class _DashBoardViewState extends State<DashBoardView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         rowData?.length ?? 0,
-                        (index) {
+                            (index) {
                           final data = rowData?[index];
 
                           return GestureDetector(
                             onTap: () {
-                              MyNavigator.pushNamed(GoPaths.productDetailView);
+                              MyNavigator.pushNamed(GoPaths.productDetailView, extra: {
+                                "productId": data?.id ?? 0,
+                              });
                             },
                             child: Container(
                               height: MediaQuery.of(context).size.height * 0.28,
@@ -380,15 +421,15 @@ class _DashBoardViewState extends State<DashBoardView> {
                                                 data?.name ?? "",
                                                 maxLines: 2,
                                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                      color: AppColors.darkJungleGreen,
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
+                                                  color: AppColors.darkJungleGreen,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                               Text(
                                                 "Item: 248",
                                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                      color: AppColors.stormDust,
-                                                    ),
+                                                  color: AppColors.stormDust,
+                                                ),
                                               ),
                                               const SizedBox(height: 4),
                                               Row(
@@ -401,17 +442,17 @@ class _DashBoardViewState extends State<DashBoardView> {
                                                       Text(
                                                         "4.9",
                                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                              color: AppColors.stormDust,
-                                                            ),
+                                                          color: AppColors.stormDust,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
                                                   Text(
                                                     data?.price ?? "",
                                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                          color: AppColors.deepSeaGreen,
-                                                          fontWeight: FontWeight.w600,
-                                                        ),
+                                                      color: AppColors.deepSeaGreen,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
                                                   ),
                                                 ],
                                               )
@@ -492,24 +533,24 @@ class _DashBoardViewState extends State<DashBoardView> {
                           "Sale",
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.fadedOrange,
-                                fontSize: 30,
-                              ),
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.fadedOrange,
+                            fontSize: 30,
+                          ),
                         ),
                         RichText(
                           text: TextSpan(
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.fadedOrange,
-                                ),
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.fadedOrange,
+                            ),
                             children: <TextSpan>[
                               TextSpan(
                                 text: 'All chairs up to ',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.fadedOrange,
-                                    ),
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.fadedOrange,
+                                ),
                               ),
                               TextSpan(
                                 text: '70% ',
@@ -521,9 +562,9 @@ class _DashBoardViewState extends State<DashBoardView> {
                               TextSpan(
                                 text: 'off',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.fadedOrange,
-                                    ),
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.fadedOrange,
+                                ),
                               ),
                             ],
                           ),
@@ -541,18 +582,18 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Rooms",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: AppColors.onyx,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
+                        color: AppColors.onyx,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       "Furniture for every corners in your home",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppColors.silverChalice,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        color: AppColors.silverChalice,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),
