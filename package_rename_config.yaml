@@ -1,0 +1,8 @@
+package_rename_config:
+  android:
+    app_name: Brownpulp
+    package_name: com.brownpulp
+    override_old_package: # (Optional) (String) Use this to delete the old folder structure of MainActivity or to use the existing code with the new package name
+    lang: # (Optional) (String) The android development language {kotlin(default) or java}
+
+

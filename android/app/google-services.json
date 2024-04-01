@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000629927217",
+    "project_id": "project-store-f2e87",
+    "storage_bucket": "project-store-f2e87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000629927217:android:d1042e3ee3424e1d950410",
+        "android_client_info": {
+          "package_name": "com.brownpulp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_JXujdqZ_sHKPzXa0ZrJBCMSBuvuVQlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
