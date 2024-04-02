@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:project/components/custom_app_bar.dart';
-import 'package:project/dashboard_module/controller/get_category_name_controller.dart';
-import 'package:project/dashboard_module/controller/product_controller.dart';
+import 'package:project/dashboard_module/controller/get_data_from_main_category_controller.dart';
 import 'package:project/utilities/constants/cached_image_container.dart';
 import 'package:project/utilities/navigation/go_paths.dart';
 import 'package:project/utilities/navigation/my_navigator.dart';
 import 'package:project/utilities/theme/app_box_decoration.dart';
 import 'package:project/utilities/theme/app_colors.dart';
-import 'package:project/utilities/theme/asset_path.dart';
 
-final _getCategoryController = Get.put(GetCategoryController());
+final _getCategoryDataController = Get.put(GetCategoryDataController());
 
-class ChooseCategory extends StatefulWidget {
+class GetDataFromCategoryName extends StatefulWidget {
   final String category;
 
-  const ChooseCategory({
+  const GetDataFromCategoryName({
     Key? key,
     required this.category,
   }) : super(key: key);
 
   @override
-  State<ChooseCategory> createState() => _ChooseCategoryState();
+  State<GetDataFromCategoryName> createState() => _GetDataFromCategoryNameState();
 }
 
-class _ChooseCategoryState extends State<ChooseCategory> {
+class _GetDataFromCategoryNameState extends State<GetDataFromCategoryName> {
   RxInt completedIndex = 0.obs;
 
   @override
@@ -34,8 +31,8 @@ class _ChooseCategoryState extends State<ChooseCategory> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _getProductsController.getProducts();
-      _getCategoryController.getCategoryName(
-          category: widget.category
+      _getCategoryDataController.getCategoryData(
+        category: widget.category,
       );
     });
   }
@@ -45,7 +42,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
     return Scaffold(
       backgroundColor: AppColors.zircon,
       appBar: CustomAppBar(
-        title: "Choose Category",
+        title: "${widget.category} Products",
         isProfileView: false,
         bgColor: AppColors.zircon,
         actionOnTap: () {
@@ -58,11 +55,12 @@ class _ChooseCategoryState extends State<ChooseCategory> {
           children: [
             const SizedBox(height: 10),
             // Grid View for mock tests
-            _getCategoryController.obx((state) {
+            _getCategoryDataController.obx((state) {
+              debugPrint("here is getCategoryData data  ${state?.result}");
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(state?.results?.length ?? 0, (index) {
-                  final rowData = state?.results?[index];
+                children: List.generate(state?.result?.length ?? 0, (index) {
+                  final rowData = state?.result?[index];
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -72,8 +70,8 @@ class _ChooseCategoryState extends State<ChooseCategory> {
 
                         return GestureDetector(
                           onTap: () {
-                            MyNavigator.pushNamed(GoPaths.getDataFromCategoryName, extra: {
-                              "category": data?.subcategory ?? 0,
+                            MyNavigator.pushNamed(GoPaths.productDetailView, extra: {
+                              "productId": data?.id ?? 0,
                             });
                           },
                           child: Container(
@@ -98,7 +96,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                                       borderRadius: 8,
                                       spreadRadius: 1,
                                     ),
-                                    url: data?.imageUrl ?? "",
+                                    url: data?.image ?? "",
                                     placeHolder: const SizedBox(
                                       height: 50,
                                       width: 50,
@@ -113,14 +111,12 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 12,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      const SizedBox(height: 4),
                                       Text(
                                         data?.subcategory ?? "",
                                         maxLines: 2,
@@ -129,37 +125,35 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                       ),
+                                      const SizedBox(height: 4),
                                       Text(
-                                        "Available Items: ${data?.categoryCount ?? 0}",
+                                        "MRP  : ${data?.mrp ?? 0}",
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                              color: AppColors.stormDust,
+                                              color: AppColors.plantation,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                       ),
                                       const SizedBox(height: 4),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      Column(
                                         children: [
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset(AssetPath.star),
-                                              const SizedBox(width: 4),
-                                              Text(
-                                                "4.9",
-                                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                      color: AppColors.stormDust,
-                                                    ),
-                                              ),
-                                            ],
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: 'Brand : ',
+                                                  style: Theme.of(context).textTheme.bodyMedium,
+                                                ),
+                                                TextSpan(
+                                                    text: data?.brand?.trim() ?? "-",
+                                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                          color: AppColors.stormDust,
+                                                        )),
+                                              ],
+                                            ),
+                                            maxLines: 2,
                                           ),
-                                          // Text(
-                                          //   data?.price ?? "",
-                                          //   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                          //         color: AppColors.deepSeaGreen,
-                                          //         fontWeight: FontWeight.w600,
-                                          //       ),
-                                          // ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),

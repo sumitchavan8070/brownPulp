@@ -13,6 +13,19 @@ class AssetPath {
   static const String sofa = "assets/products_images/Sofa.png";
 
 
+  static const String authLogo = "assets/svg_images/authLogo.svg";
+  static const String google = "assets/svg_images/google.svg";
+  static const String fb = "assets/svg_images/fb.svg";
+  static const String apple = "assets/svg_images/apple.svg";
+  static const String authBg = "assets/svg_images/authBg.svg";
+
+  static const String mail = "assets/svg_images/mail.svg";
+  static const String mailEnabled = "assets/svg_images/mailEnabled.svg";
+
+  static const String lockEnabled = "assets/svg_images/lockEnabled.svg";
+  static const String lock = "assets/svg_images/lock.svg";
+
+
   static const String bp1 = "assets/products_images/bp1.png";
   static const String bp2 = "assets/products_images/bp2.png";
   static const String bp3 = "assets/products_images/bp3.png";

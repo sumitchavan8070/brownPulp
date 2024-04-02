@@ -17,6 +17,9 @@ class APIEndPoints {
   static String productDetail = 'productDetail';
   static String notification = 'getNotificationData';
   static String getSofasData = 'getSofasData';
+  static String getCategoryName = 'getCategoryName';
+  static String getCategoryData = 'getCategoryData';
+
 }
 
 

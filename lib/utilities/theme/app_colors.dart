@@ -33,9 +33,14 @@ static const Color fadedOrange = Color(0xFFE29547);
 
   static const Color lemonGrass = Color(0xFF999999);
   static const Color whiteSmoke = Color(0xFFF3F6F9);
+  static const Color midGrey = Color(0xFF59606E);
+  static const Color doggerBlule = Color(0xFF477FF1);
+  static const Color ebonyClay = Color(0xFF1E2940);
+  static const Color royalBlue = Color(0xFF326BDF);
 
 
-  static const Color plantation = Color(0xFF255849);
+  static const Color plantation = Color(0xFF5E4B3C);
+  // static const Color plantation = Color(0xFF255849);
 
   // App Colors
   static const Color aliceBlue = Color(0xFFF3F7FF);
@@ -48,6 +53,7 @@ static const Color fadedOrange = Color(0xFFE29547);
   static const Color darkMintGreen = Color(0xFF00C853);
   static const Color blueBayoux = Color(0xFF525F7F);
   static const Color porcelain = Color(0xFFEEF0F7);
+  static const Color pastalGrey = Color(0xFFCDCDCD);
   static const Color shipGrey = Color(0xFF3C3C43);
   static const Color aquaHaze = Color(0xFFF3F3F3);
 

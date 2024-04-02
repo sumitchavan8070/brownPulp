@@ -3,7 +3,7 @@ import 'package:project/utilities/constants/smooth_rectangular_border.dart';
 import 'package:project/utilities/theme/app_colors.dart';
 
 
-
+typedef OnChanged =  void Function(String? value);
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
@@ -11,12 +11,14 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.validator,
     this.suffix,
-    this.obscureText, this.prefix,
+    this.obscureText, this.prefix, this.fillColor, this.onChanged,
   });
   final Widget? suffix;
   final Widget? prefix;
+  final OnChanged? onChanged;
   final bool? obscureText;
   final String hintText;
+  final Color? fillColor;
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
@@ -25,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText ?? false,
+      onChanged: onChanged,
       decoration: InputDecoration(
         isDense: true,
         enabledBorder: OutlineInputBorder(
@@ -42,7 +45,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         suffixIcon: suffix,
         prefixIcon: prefix,
-        fillColor: AppColors.alabaster,
+        fillColor: fillColor ?? AppColors.white,
         hintText: hintText,
         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.brightGrey),
       ),

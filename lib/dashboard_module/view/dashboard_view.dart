@@ -128,7 +128,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
+                        // MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
                       },
                       child: Row(
                         children: [
@@ -149,52 +149,52 @@ class _DashBoardViewState extends State<DashBoardView> {
                 ),
               ),
               const SizedBox(height: 12),
-              _dashboardController.obx((state) {
-                return
-
-                  Marquee(
-                    maxHeight: 68,
-                    offset: 40,
-                    children: List.generate(
-                      state?.categories?.length ?? 0,
-                          (index) {
-                        final item = state?.categories?[index];
-                        return GestureDetector(
-                          onTap:  () {
-                            MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.width * 0.15,
-                            width: MediaQuery.of(context).size.width * 0.30,
-                            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: AppBoxDecoration.getBoxDecoration(
-                              showShadow: false,
-                            ),
-                            child:  CachedImageNetworkContainer(
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width * 0.42,
-                              height: MediaQuery.of(context).size.height * 0.16,
-                              decoration: AppBoxDecoration.getBoxDecoration(
-                                showShadow: false,
-                                shadowColor: Colors.grey.withOpacity(0.5),
-                                borderRadius: 0,
-                                spreadRadius: 1,
-                              ),
-                              url: item?.image ?? '',
-                              placeHolder: const SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.fadedOrange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-              }),
+              // _dashboardController.obx((state) {
+              //   return
+              //
+              //     Marquee(
+              //       maxHeight: 68,
+              //       offset: 40,
+              //       children: List.generate(
+              //         state?.categories?.length ?? 0,
+              //             (index) {
+              //           final item = state?.categories?[index];
+              //           return GestureDetector(
+              //             onTap:  () {
+              //               MyNavigator.pushNamed(GoPaths.chooseMockTestScreen);
+              //             },
+              //             child: Container(
+              //               height: MediaQuery.of(context).size.width * 0.15,
+              //               width: MediaQuery.of(context).size.width * 0.30,
+              //               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              //               decoration: AppBoxDecoration.getBoxDecoration(
+              //                 showShadow: false,
+              //               ),
+              //               child:  CachedImageNetworkContainer(
+              //                 fit: BoxFit.cover,
+              //                 width: MediaQuery.of(context).size.width * 0.42,
+              //                 height: MediaQuery.of(context).size.height * 0.16,
+              //                 decoration: AppBoxDecoration.getBoxDecoration(
+              //                   showShadow: false,
+              //                   shadowColor: Colors.grey.withOpacity(0.5),
+              //                   borderRadius: 0,
+              //                   spreadRadius: 1,
+              //                 ),
+              //                 url: item?.image ?? '',
+              //                 placeHolder: const SizedBox(
+              //                   height: 50,
+              //                   width: 50,
+              //                   child: CircularProgressIndicator(
+              //                     color: AppColors.fadedOrange,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           );
+              //         },
+              //       ),
+              //     );
+              // }),
               const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
@@ -210,7 +210,13 @@ class _DashBoardViewState extends State<DashBoardView> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+
+                          MyNavigator.pushNamed(GoPaths.chooseMockTestScreen,extra: {
+                            "category": "Chair",
+                          });
+
+                      },
                       child: Row(
                         children: [
                           Text(
@@ -348,7 +354,12 @@ class _DashBoardViewState extends State<DashBoardView> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+
+                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen,extra: {
+                          "category": "sofa",
+                        });
+                      },
                       child: Row(
                         children: [
                           Text(

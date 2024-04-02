@@ -71,6 +71,13 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
+        checkboxTheme: CheckboxThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.9),
+            // Set circular shape
+          ),
+
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
