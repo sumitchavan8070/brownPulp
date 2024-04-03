@@ -75,6 +75,82 @@ class Dialogs {
         });
   }
 
+
+
+
+
+  static Future<void> showAddToCartSuccessDialog(
+      BuildContext context,
+      ) async {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: SimpleDialog(
+              shape: SmoothRectangleBorder(
+                borderRadius: SmoothBorderRadius(cornerRadius: 22),
+              ),
+              backgroundColor: AppColors.white,
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 12),
+                    child: Column(
+                      children: [
+                        const SizedBox(width: 20),
+                        const CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          color: AppColors.scienceBlue,
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 20),
+
+                            Text(
+                              "Product Added To Cart",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(color: AppColors.royalBlue, fontWeight: FontWeight.w500),
+                            ),
+                            const SizedBox(height: 20),
+
+                            Text(
+                                "Please wait...",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: AppColors.midGrey,
+                                )
+                            ),
+
+                            const SizedBox(height: 8),
+
+                            Text(
+                                " You will be directed to the my cart soon.",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: AppColors.midGrey,
+                                )
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+
+
+
   static Future<void> cancelledDialog(BuildContext context) async {
     showDialog<void>(
       context: context,

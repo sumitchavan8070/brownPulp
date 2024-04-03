@@ -6,5 +6,5 @@ class GlobalVars {
   static bool isLoggedIn = prefs.read("IS_LOGGED_IN") ?? false;
 
   static String? authToken = prefs.read("TOKEN");
-  static String userId = prefs.read("USER_ID") ?? "";
+  static String userId = prefs.read("USER_ID").toString()  ?? "7";
 }

@@ -9,8 +9,8 @@ import 'package:project/dashboard_module/onboarding/onboarding_view.dart';
 import 'package:project/dashboard_module/view/category_view.dart';
 import 'package:project/dashboard_module/view/dashboard_view.dart';
 import 'package:project/dashboard_module/view/from_main_category_view.dart';
-import 'package:project/dashboard_module/view/product_detail_view.dart';
-import 'package:project/my_cart.dart';
+import 'package:project/order_module/view/product_detail_view.dart';
+import 'package:project/order_module/view/my_cart_view.dart';
 import 'package:project/utilities/constants/global_var.dart';
 import 'package:project/utilities/navigation/go_paths.dart';
 
@@ -19,8 +19,8 @@ final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>(de
 final prefs = GetStorage();
 
 final GoRouter goRouterConfig = GoRouter(
-  initialLocation: GoPaths.signUpView,
-  // initialLocation: GlobalVars.isLoggedIn == true ? GoPaths.dashboard : GoPaths.loginScreen,
+  // initialLocation: GoPaths.dashboard,
+  initialLocation: GlobalVars.isLoggedIn == true ? GoPaths.dashboard : GoPaths.loginScreen,
 
   navigatorKey: rootNavigatorKey,
   routes: [

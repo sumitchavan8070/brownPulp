@@ -19,6 +19,8 @@ class APIEndPoints {
   static String getSofasData = 'getSofasData';
   static String getCategoryName = 'getCategoryName';
   static String getCategoryData = 'getCategoryData';
+  static String addToCart = 'addToCart';
+  static String myCart = 'myOrders';
 
 }
 

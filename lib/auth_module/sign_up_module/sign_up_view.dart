@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:project/auth_module/login_module/login_controller.dart';
 import 'package:project/utilities/constants/custom_dialogs.dart';
 import 'package:project/utilities/constants/custom_text_field.dart';
-import 'package:project/utilities/constants/key_value_pair.dart';
 import 'package:project/utilities/navigation/go_paths.dart';
 import 'package:project/utilities/navigation/my_navigator.dart';
 import 'package:project/utilities/theme/app_box_decoration.dart';
@@ -13,7 +12,6 @@ import 'package:project/utilities/theme/app_colors.dart';
 import 'package:project/utilities/theme/asset_path.dart';
 import 'package:project/utilities/theme/button_decoration.dart';
 import 'package:project/utilities/validators/generic_validator.dart';
-import 'package:project/utilities/validators/my_regex.dart';
 
 final _loginController = Get.put(LoginController());
 
@@ -45,76 +43,6 @@ class _SignUpViewState extends State<SignUpView> {
     //   emailController.text = prefs.read("REMEMBER_EMAIL");
     //
     // }
-  }
-
-
-
-  commonTextField( String title, TextEditingController controller , String hintText, Function(String value) onChanged ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          child: Text(
-            "Email",
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          decoration: AppBoxDecoration.getBorderBoxDecoration(
-            showShadow: false,
-            borderRadius: 18,
-            borderColor: AppColors.pastalGrey,
-            color: AppColors.pastalGrey.withOpacity(0.2),
-          ),
-          child: CustomTextField(
-            hintText: "Enter Email Address",
-            controller: passwordController,
-            obscureText: showPass,
-            fillColor: AppColors.transparent,
-            onChanged: (value) {
-              if (value!.isEmpty) {
-                showPassEnabled = false;
-                setState(() {});
-              } else {
-                showPassEnabled = true;
-                setState(() {});
-              }
-            },
-            validator: (value) {
-              return GenericValidator.required(
-                value: value,
-                message: "Please enter password",
-              );
-            },
-            prefix: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SvgPicture.asset(
-                showPassEnabled ? AssetPath.lockEnabled : AssetPath.lock,
-              ),
-            ),
-            suffix: passwordController.text.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showPass = !showPass;
-                        });
-                      },
-                      child: SvgPicture.asset(
-                        showPass ? AssetPath.hide : AssetPath.show,
-                      ),
-                    ),
-                  )
-                : SizedBox(),
-          ),
-        ),
-      ],
-    );
   }
 
   @override
@@ -185,8 +113,8 @@ class _SignUpViewState extends State<SignUpView> {
                               color: AppColors.pastalGrey.withOpacity(0.2),
                             ),
                             child: CustomTextField(
-                              hintText: "Email",
-                              controller: emailController,
+                              hintText: "Enter your name",
+                              controller: nameController,
                               fillColor: AppColors.transparent,
                               onChanged: (value) {
                                 if (value!.isEmpty) {
@@ -207,14 +135,9 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                               validator: (value) {
                                 return GenericValidator.required(
-                                      value: value,
-                                      message: "Please enter email",
-                                    ) ??
-                                    GenericValidator.regexMatch(
-                                      value: value,
-                                      regex: MyRegex.emailPattern,
-                                      message: "Invalid email",
-                                    );
+                                  value: value,
+                                  message: "Please enter name",
+                                );
                               },
                             ),
                           ),
@@ -243,7 +166,7 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                             child: CustomTextField(
                               hintText: "Enter Email Address",
-                              controller: passwordController,
+                              controller: emailController,
                               obscureText: showPass,
                               fillColor: AppColors.transparent,
                               onChanged: (value) {
@@ -258,7 +181,7 @@ class _SignUpViewState extends State<SignUpView> {
                               validator: (value) {
                                 return GenericValidator.required(
                                   value: value,
-                                  message: "Please enter password",
+                                  message: "Please enter email",
                                 );
                               },
                               prefix: Padding(
@@ -309,7 +232,7 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                             child: CustomTextField(
                               hintText: " Enter phone number",
-                              controller: passwordController,
+                              controller: phoneController,
                               obscureText: showPass,
                               fillColor: AppColors.transparent,
                               onChanged: (value) {
@@ -323,9 +246,13 @@ class _SignUpViewState extends State<SignUpView> {
                               },
                               validator: (value) {
                                 return GenericValidator.required(
-                                  value: value,
-                                  message: "Please enter password",
-                                );
+                                      value: value,
+                                      message: "Please enter phone number",
+                                    ) ??
+                                    GenericValidator.numberValidator(
+                                      value: value,
+                                      message: "Please enter valid phone number",
+                                    );
                               },
                               prefix: Padding(
                                 padding: const EdgeInsets.all(12.0),
@@ -333,7 +260,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   showPassEnabled ? AssetPath.lockEnabled : AssetPath.lock,
                                 ),
                               ),
-                              suffix: passwordController.text.isNotEmpty
+                              suffix: phoneController.text.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.all(14.0),
                                       child: GestureDetector(

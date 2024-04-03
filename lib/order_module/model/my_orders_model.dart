@@ -1,57 +1,64 @@
-import 'dart:convert';
-ProductDetailModel productDetailModelFromJson(String str) => ProductDetailModel.fromJson(json.decode(str));
-String productDetailModelToJson(ProductDetailModel data) => json.encode(data.toJson());
-class ProductDetailModel {
-  ProductDetailModel({
+class MyOrdersModel {
+  MyOrdersModel({
       this.status, 
       this.response, 
-      this.result,});
+      this.orders, 
+      this.products,});
 
-  ProductDetailModel.fromJson(dynamic json) {
+  MyOrdersModel.fromJson(dynamic json) {
     status = json['status'];
     response = json['response'];
-    result = json['result'] != null ? Result.fromJson(json['result']) : null;
+    orders = json['orders'] != null ? json['orders'].cast<num>() : [];
+    if (json['products'] != null) {
+      products = [];
+      json['products'].forEach((v) {
+        products?.add(Products.fromJson(v));
+      });
+    }
   }
   num? status;
   String? response;
-  Result? result;
+  List<num>? orders;
+  List<Products>? products;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['response'] = response;
-    if (result != null) {
-      map['result'] = result?.toJson();
+    map['orders'] = orders;
+    if (products != null) {
+      map['products'] = products?.map((v) => v.toJson()).toList();
     }
     return map;
   }
 
 }
 
-Result resultFromJson(String str) => Result.fromJson(json.decode(str));
-String resultToJson(Result data) => json.encode(data.toJson());
-class Result {
-  Result({
-      this.brand, 
+class Products {
+  Products({
+      this.id, 
       this.subcategory, 
       this.name, 
+      this.brand, 
       this.price, 
       this.mrp, 
       this.discount, 
       this.image,});
 
-  Result.fromJson(dynamic json) {
-    brand = json['brand'];
+  Products.fromJson(dynamic json) {
+    id = json['id'];
     subcategory = json['subcategory'];
     name = json['name'];
+    brand = json['brand'];
     price = json['price'];
     mrp = json['mrp'];
     discount = json['discount'];
     image = json['image'];
   }
-  String? brand;
+  num? id;
   String? subcategory;
   String? name;
+  String? brand;
   String? price;
   String? mrp;
   String? discount;
@@ -59,9 +66,10 @@ class Result {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['brand'] = brand;
+    map['id'] = id;
     map['subcategory'] = subcategory;
     map['name'] = name;
+    map['brand'] = brand;
     map['price'] = price;
     map['mrp'] = mrp;
     map['discount'] = discount;

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:project/dashboard_module/controller/product_detail_controller.dart';
+import 'package:project/order_module/controller/add_to_cart_controller.dart';
+import 'package:project/order_module/controller/product_detail_controller.dart';
 import 'package:project/utilities/constants/cached_image_container.dart';
+import 'package:project/utilities/constants/custom_dialogs.dart';
+import 'package:project/utilities/constants/global_var.dart';
 import 'package:project/utilities/navigation/go_paths.dart';
 import 'package:project/utilities/navigation/my_navigator.dart';
 import 'package:project/utilities/theme/app_box_decoration.dart';
@@ -11,6 +14,7 @@ import 'package:project/utilities/theme/asset_path.dart';
 import 'package:project/utilities/theme/button_decoration.dart';
 
 final _getProductDetailController = Get.put(ProductDetailController());
+final _addToCartController = Get.put(AddToCartController());
 
 class ProductDetailView extends StatefulWidget {
   final int productId;
@@ -245,8 +249,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Add your button press logic here
-                                  MyNavigator.pushNamed(GoPaths.myCart);
-                                  debugPrint("Button pressed $itemCount");
+                                  debugPrint(
+                                      "userId  ${state?.result?.id.toString()}");
+
+                                  _addToCartController
+                                      .addToCart(
+                                          productId: state?.result?.id.toString() ?? "",
+                                          userId: GlobalVars.userId.toString() ?? 7)
+                                      .then((value) {
+                                    if (value == 0) {
+                                      debugPrint("item not added");
+                                    }
+
+                                    if (value == 1) {
+                                      Dialogs.showAddToCartSuccessDialog(context);
+                                      Future.delayed(const Duration(milliseconds: 1500), () async {
+                                        MyNavigator.pushNamed(GoPaths.myCart);
+                                      });
+                                    }
+                                  });
                                 }, // Button label
                                 style: getElevatedButtonStyle(
                                   borderRadius: 40,

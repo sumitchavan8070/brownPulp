@@ -90,7 +90,8 @@ class _DashBoardViewState extends State<DashBoardView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        MyNavigator.pushNamed(GoPaths.notification);
+                        MyNavigator.pushNamed(GoPaths.myCart);
+                        // MyNavigator.pushNamed(GoPaths.notification);
                       },
                       child: SvgPicture.asset(
                         AssetPath.notification,

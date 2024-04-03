@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/dashboard_module/models/product_detail_model.dart';
+import 'package:project/order_module/model/product_detail_model.dart';
 import 'package:project/utilities/dio/api_end_points.dart';
 import 'package:project/utilities/dio/api_request.dart';
 
-class ProductDetailController extends GetxController with StateMixin<ProductDetailModel> {
+class   ProductDetailController extends GetxController with StateMixin<ProductDetailModel> {
 
 
   getProductDetail({required int id}) async {
