@@ -135,7 +135,7 @@ class _OnboardingQuestionsState extends State<OnboardingQuestions> {
               child: LinearProgressIndicator(
                 value: 0.2,
                 backgroundColor: AppColors.porcelain,
-                valueColor: AlwaysStoppedAnimation(AppColors.plantation.withOpacity(0.8)),
+                valueColor: AlwaysStoppedAnimation(AppColors.roseEbony.withOpacity(0.8)),
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
             ),

@@ -271,8 +271,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 }, // Button label
                                 style: getElevatedButtonStyle(
                                   borderRadius: 40,
-                                  foregroundColor: AppColors.plantation,
-                                  backgroundColor: AppColors.plantation,
+                                  foregroundColor: AppColors.roseEbony,
+                                  backgroundColor: AppColors.roseEbony,
                                   elevation: 0,
                                 ),
                                 child: Text(

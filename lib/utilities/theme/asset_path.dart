@@ -63,6 +63,8 @@ class AssetPath {
    static const String image6 = "assets/products_images/living_room/image6.png";
 
   static const String popular = "assets/products_images/popular.png";
+  static const String customError = "assets/svg_images/customError.svg";
+  static const String myCartSvg = "assets/svg_images/myCartSvg.svg";
 
 
   static const String orangeLiked = "assets/svg_images/liked.svg";

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:project/components/bottom_navigation_bar.dart';
 import 'package:project/dashboard_module/controller/dashboard_controller.dart';
 import 'package:project/dashboard_module/controller/product_controller.dart';
+import 'package:project/order_module/controller/my_cart_controller.dart';
 import 'package:project/utilities/constants/cached_image_container.dart';
-import 'package:project/utilities/constants/scroll_container.dart';
 import 'package:project/utilities/navigation/go_paths.dart';
 import 'package:project/utilities/navigation/my_navigator.dart';
 import 'package:project/utilities/theme/app_box_decoration.dart';
@@ -13,6 +13,8 @@ import 'package:project/utilities/theme/app_colors.dart';
 import 'package:project/utilities/theme/asset_path.dart';
 
 final _getProductsController = Get.put(ProductController());
+final _getMyCartController = Get.put(MyCartController());
+
 final _dashboardController = Get.put(DashBoardController());
 
 class DashBoardView extends StatefulWidget {
@@ -55,6 +57,7 @@ class _DashBoardViewState extends State<DashBoardView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _dashboardController.dashboard();
       _getProductsController.getProducts();
+      _getMyCartController.getMyCart();
     });
   }
 
@@ -69,47 +72,82 @@ class _DashBoardViewState extends State<DashBoardView> {
             children: [
               const SizedBox(height: 40),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
                 width: MediaQuery.of(context).size.width,
                 decoration: AppBoxDecoration.getBoxDecoration(
                   showShadow: false,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: Text(
-                        "Explore What Your Home Needs",
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.onyx,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 26,
-                        ),
-                      ),
-                    ),
+                    SvgPicture.asset(AssetPath.appLogo),
                     GestureDetector(
                       onTap: () {
                         MyNavigator.pushNamed(GoPaths.myCart);
-                        // MyNavigator.pushNamed(GoPaths.notification);
                       },
-                      child: SvgPicture.asset(
-                        AssetPath.notification,
-                        width: 32, // Adjust width as needed
-                        height: 32, // Adjust height as needed
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        clipBehavior: Clip.none,
+                        children: [
+                          SvgPicture.asset(
+                            AssetPath.myCartSvg,
+                            width: 24, // Adjust width as needed
+                            height: 24, // Adjust height as needed
+                          ),
+                          Positioned(
+                            top: -5,
+                            right: -5,
+                            child: Container(
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColors.tan,
+                                ),
+                                child: Obx(
+                                  () => Text(
+                                    _getMyCartController.cartCount.toString(),
+
+
+                                    // GlobalVars.cartCount.toString(),
+
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                          color: AppColors.white,
+                                        ),
+                                  ),
+                                )),
+                          )
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-                decoration: AppBoxDecoration.getBorderBoxDecoration(
-                  showShadow: false,
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+                decoration: AppBoxDecoration.getBoxDecoration(
+                  showShadow: true,
                 ),
                 child: Row(
                   children: [
+                    Flexible(
+                      child: TextField(
+                        cursorColor: AppColors.roseEbony,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Search",
+                          floatingLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: AppColors.roseEbony,
+                              ),
+                          hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: AppColors.charcoalGrey,
+                              ),
+                        ),
+                      ),
+                    ),
                     SvgPicture.asset(AssetPath.search),
                   ],
                 ),
@@ -122,10 +160,10 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Categories",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.onyx,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
+                            color: AppColors.onyx,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -136,8 +174,8 @@ class _DashBoardViewState extends State<DashBoardView> {
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: AppColors.plantation,
-                            ),
+                                  color: AppColors.roseEbony,
+                                ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -205,26 +243,24 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Chair",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.onyx,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
+                            color: AppColors.onyx,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                     ),
                     GestureDetector(
                       onTap: () {
-
-                          MyNavigator.pushNamed(GoPaths.chooseMockTestScreen,extra: {
-                            "category": "Chair",
-                          });
-
+                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen, extra: {
+                          "category": "Chair",
+                        });
                       },
                       child: Row(
                         children: [
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: AppColors.plantation,
-                            ),
+                                  color: AppColors.roseEbony,
+                                ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -237,7 +273,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                 ),
               ),
               _getProductsController.obx(
-                    (state) {
+                (state) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: List.generate(2 ?? 0, (index) {
@@ -247,7 +283,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
                           getData?.length ?? 0,
-                              (index) {
+                          (index) {
                             final data = getData?[index];
                             final image = imageData[index];
 
@@ -288,15 +324,15 @@ class _DashBoardViewState extends State<DashBoardView> {
                                       Text(
                                         data?.name ?? "",
                                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          color: AppColors.darkJungleGreen,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                              color: AppColors.darkJungleGreen,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                       ),
                                       Text(
                                         "Item: 248",
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                          color: AppColors.stormDust,
-                                        ),
+                                              color: AppColors.stormDust,
+                                            ),
                                       ),
                                       const SizedBox(height: 4),
                                       Row(
@@ -309,17 +345,17 @@ class _DashBoardViewState extends State<DashBoardView> {
                                               Text(
                                                 "4.9",
                                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                  color: AppColors.stormDust,
-                                                ),
+                                                      color: AppColors.stormDust,
+                                                    ),
                                               ),
                                             ],
                                           ),
                                           Text(
-                                            data?.price ?? "-",
+                                            data?.price.toString() ?? "-",
                                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                              color: AppColors.deepSeaGreen,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                                  color: AppColors.tan,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                           ),
                                         ],
                                       )
@@ -349,15 +385,14 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Popular",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.onyx,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
+                            color: AppColors.onyx,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                     ),
                     GestureDetector(
                       onTap: () {
-
-                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen,extra: {
+                        MyNavigator.pushNamed(GoPaths.chooseMockTestScreen, extra: {
                           "category": "sofa",
                         });
                       },
@@ -366,8 +401,8 @@ class _DashBoardViewState extends State<DashBoardView> {
                           Text(
                             "See all",
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: AppColors.plantation,
-                            ),
+                                  color: AppColors.roseEbony,
+                                ),
                           ),
                           const SizedBox(width: 8),
                           SvgPicture.asset(
@@ -388,7 +423,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         rowData?.length ?? 0,
-                            (index) {
+                        (index) {
                           final data = rowData?[index];
 
                           return GestureDetector(
@@ -433,15 +468,15 @@ class _DashBoardViewState extends State<DashBoardView> {
                                                 data?.name ?? "",
                                                 maxLines: 2,
                                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                  color: AppColors.darkJungleGreen,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                                      color: AppColors.darkJungleGreen,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
                                               ),
                                               Text(
                                                 "Item: 248",
                                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                  color: AppColors.stormDust,
-                                                ),
+                                                      color: AppColors.stormDust,
+                                                    ),
                                               ),
                                               const SizedBox(height: 4),
                                               Row(
@@ -454,17 +489,17 @@ class _DashBoardViewState extends State<DashBoardView> {
                                                       Text(
                                                         "4.9",
                                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                          color: AppColors.stormDust,
-                                                        ),
+                                                              color: AppColors.stormDust,
+                                                            ),
                                                       ),
                                                     ],
                                                   ),
                                                   Text(
-                                                    data?.price ?? "",
+                                                    data?.price.toString() ?? "",
                                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                      color: AppColors.deepSeaGreen,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
+                                                          color: AppColors.tan,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
                                                   ),
                                                 ],
                                               )
@@ -545,24 +580,24 @@ class _DashBoardViewState extends State<DashBoardView> {
                           "Sale",
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.fadedOrange,
-                            fontSize: 30,
-                          ),
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.fadedOrange,
+                                fontSize: 30,
+                              ),
                         ),
                         RichText(
                           text: TextSpan(
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.fadedOrange,
-                            ),
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.fadedOrange,
+                                ),
                             children: <TextSpan>[
                               TextSpan(
                                 text: 'All chairs up to ',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.fadedOrange,
-                                ),
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.fadedOrange,
+                                    ),
                               ),
                               TextSpan(
                                 text: '70% ',
@@ -574,9 +609,9 @@ class _DashBoardViewState extends State<DashBoardView> {
                               TextSpan(
                                 text: 'off',
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.fadedOrange,
-                                ),
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.fadedOrange,
+                                    ),
                               ),
                             ],
                           ),
@@ -594,18 +629,18 @@ class _DashBoardViewState extends State<DashBoardView> {
                     Text(
                       "Rooms",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.onyx,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
+                            color: AppColors.onyx,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       "Furniture for every corners in your home",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.silverChalice,
-                        fontWeight: FontWeight.w400,
-                      ),
+                            color: AppColors.silverChalice,
+                            fontWeight: FontWeight.w400,
+                          ),
                     ),
                   ],
                 ),

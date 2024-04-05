@@ -5,10 +5,6 @@ class APIEndPoints {
   static const live = 'Live Api Url ';
   static const staging = 'http://10.0.20.125:3000/api/';
   static const base = staging;
-
-
-
-
   //  api end points
 
   static String login = 'login';
@@ -21,6 +17,7 @@ class APIEndPoints {
   static String getCategoryData = 'getCategoryData';
   static String addToCart = 'addToCart';
   static String myCart = 'myOrders';
+  static String removeFromMyCart = 'removeFromMyCart';
 
 }
 

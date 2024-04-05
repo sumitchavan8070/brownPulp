@@ -399,7 +399,7 @@ class _SignUpViewState extends State<SignUpView> {
                               )
                                   .then((value) {
                                 if (value == 1) {
-                                  Dialogs.showSuccessDialog(context);
+                                  Dialogs.showSuccessDialog(context,);
                                   Future.delayed(const Duration(milliseconds: 1500), () async {
                                     MyNavigator.pushReplacementNamed(GoPaths.onboardingQuestions);
                                   });
@@ -421,8 +421,8 @@ class _SignUpViewState extends State<SignUpView> {
                           // Button label
                           style: getElevatedButtonStyle(
                             borderRadius: 40,
-                            foregroundColor: AppColors.plantation,
-                            backgroundColor: AppColors.plantation,
+                            foregroundColor: AppColors.roseEbony,
+                            backgroundColor: AppColors.roseEbony,
                             elevation: 0,
                           ),
                           child: Text(

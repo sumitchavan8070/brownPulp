@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/order_module/model/add_to_cart_model.dart';
 import 'package:project/order_module/model/my_orders_model.dart';
+import 'package:project/utilities/constants/global_var.dart';
 import 'package:project/utilities/dio/api_end_points.dart';
 import 'package:project/utilities/dio/api_request.dart';
 
 class MyCartController extends GetxController with StateMixin<MyOrdersModel> {
+
+  final RxInt cartCount = 0.obs;
+
+
+
   Future<num> getMyCart({userId}) async {
     final apiEndPoint = APIEndPoints.myCart;
 
@@ -15,7 +20,7 @@ class MyCartController extends GetxController with StateMixin<MyOrdersModel> {
 
     try {
       final postData = {
-        "userId": userId,
+        "userId": GlobalVars.userId,
       };
       final response = await postRequest(
         apiEndPoint: apiEndPoint,
@@ -30,6 +35,7 @@ class MyCartController extends GetxController with StateMixin<MyOrdersModel> {
       if (response.data["status"] == 1) {
         final modal = MyOrdersModel.fromJson(response.data);
         change(modal, status: RxStatus.success());
+        cartCount.value = modal.products?.length ?? 0;
       }
     } catch (error) {
       debugPrint("---------- $apiEndPoint  End With Error ----------");

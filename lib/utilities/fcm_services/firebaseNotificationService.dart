@@ -136,7 +136,7 @@ class FCMNotificationService {
         priority: Priority.high,
         playSound: true,
         largeIcon: DrawableResourceAndroidBitmap('mipmap/ic_launcher'),
-        color: AppColors.plantation,
+        color: AppColors.roseEbony,
       );
 
       const iosNotificationDetail = DarwinNotificationDetails();

@@ -129,7 +129,7 @@ class _GetDataFromCategoryNameState extends State<GetDataFromCategoryName> {
                                       Text(
                                         "MRP  : ${data?.mrp ?? 0}",
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                              color: AppColors.plantation,
+                                              color: AppColors.roseEbony,
                                               fontWeight: FontWeight.w600,
                                             ),
                                       ),
