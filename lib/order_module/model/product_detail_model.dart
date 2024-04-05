@@ -50,8 +50,8 @@ class Result {
   String? brand;
   String? subcategory;
   String? name;
-  String? price;
-  String? mrp;
+  num? price;
+  num? mrp;
   String? discount;
   String? image;
 

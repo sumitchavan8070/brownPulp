@@ -8,7 +8,7 @@ class MyOrdersModel {
   MyOrdersModel.fromJson(dynamic json) {
     status = json['status'];
     response = json['response'];
-    orders = json['orders'] != null ? json['orders'].cast<num>() : [];
+    orders = json['orders'] != null ? json['orders'].cast<String>() : [];
     if (json['products'] != null) {
       products = [];
       json['products'].forEach((v) {
@@ -18,7 +18,7 @@ class MyOrdersModel {
   }
   num? status;
   String? response;
-  List<num>? orders;
+  List<String>? orders;
   List<Products>? products;
 
   Map<String, dynamic> toJson() {
@@ -59,8 +59,8 @@ class Products {
   String? subcategory;
   String? name;
   String? brand;
-  String? price;
-  String? mrp;
+  num? price;
+  num? mrp;
   String? discount;
   String? image;
 
