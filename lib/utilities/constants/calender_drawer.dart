@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mysip/theme/app_colors.dart';
+import 'package:project/utilities/theme/app_colors.dart';
 
 // final  dateFormat = DateFormat('dd-MM-yyyy');
 typedef DateSelectionCallback = void Function(DateTime selectedDate);
@@ -24,7 +24,7 @@ Future<void> cupertinoCalenderDrawer({
           children: [
             Text(
               title,
-              style: AppTextStyle.subheading(),
+              style: AppColors.subheading(),
             ),
             Flexible(
               child: CupertinoDatePicker(
@@ -58,7 +58,7 @@ Future<void> cupertinoCalenderDrawer({
               },
               child: Text(
                 'Select Date',
-                style: AppTextStyle.content(color: Colors.white, fs: 16),
+                style: AppColors.content(color: Colors.white, fs: 16),
               ),
             ),
             const SizedBox(height: 20),

@@ -91,4 +91,30 @@ static const Color fadedOrange = Color(0xFFE29547);
   static const Color mediumTealBlue = Color(0xFF055AAB);
   static const Color ultramarineBlue = Color(0xFF5570F1);
   static const Color blueHaze = Color(0xFFB6C2E2);
+
+
+
+
+
+  static TextStyle subheading(
+      {double? fs, FontWeight? fw, Color? color, double? ls, TextDecoration? td}) {
+    return TextStyle(
+      fontFamily: 'Poppins',
+      decoration: td ?? TextDecoration.none,
+      letterSpacing: ls ?? 1,
+      fontSize: fs ?? 18,
+      fontWeight: fw ?? FontWeight.w600,
+      color: color ?? AppColors.black,
+    );
+  }
+
+  static TextStyle content({double? fs, FontWeight? fw, Color? color}) {
+    return TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: fs ?? 14,
+        fontWeight: fw ?? FontWeight.w400,
+        color: color ?? AppColors.black);
+  }
+
+
 }

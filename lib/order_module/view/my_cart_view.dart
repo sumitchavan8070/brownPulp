@@ -120,6 +120,7 @@ class _MyCartState extends State<MyCart> {
               : SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ListView.builder(
                         shrinkWrap: true,
@@ -265,14 +266,6 @@ class _MyCartState extends State<MyCart> {
                           color: AppColors.black.withOpacity(0.05),
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(12),
-
-
-
-
-
-
-
-
                             topRight: Radius.circular(12),
                           ),
                         ),

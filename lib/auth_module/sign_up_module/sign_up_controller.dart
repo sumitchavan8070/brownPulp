@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:project/auth_module/login_module/login_model.dart';
+import 'package:project/auth_module/sign_up_module/sign_up_model.dart';
 import 'package:project/utilities/dio/api_end_points.dart';
 import 'package:project/utilities/dio/api_request.dart';
 
-class LoginController extends GetxController with StateMixin<LoginModel> {
-
-  Future<num> login({required String email, required String password}) async {
+class SignUpController extends GetxController with StateMixin<SignUpModel> {
+  Future<num> signUp(
+    String? referral, {
+    required String email,
+    required String password,
+    required String userName,
+    required String phone,
+  }) async {
     final prefs = GetStorage();
 
-    final apiEndPoint = APIEndPoints.login;
+    final apiEndPoint = APIEndPoints.signUp;
 
     debugPrint("---------- $apiEndPoint  Start ----------");
 
@@ -18,9 +23,14 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
     try {
       final postData = {
+        "username": userName,
         "email": email,
         "password": password,
+        "phoneNumber": phone,
+        "dateOfBirth" : "1990-01-01",
+        "referral": "referral"
       };
+
       final response = await postRequest(
         apiEndPoint: apiEndPoint,
         postData: postData,
@@ -34,12 +44,11 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       debugPrint("status is ${response.data["status"]}");
 
       if (response.data["status"] == 1) {
-
         prefs.write("IS_LOGGED_IN", true);
         prefs.write("USER_ID", response.data['id']);
         prefs.write('TOKEN', response.data['token']);
 
-        final modal = LoginModel.fromJson(response.data);
+        final modal = SignUpModel.fromJson(response.data);
         change(modal, status: RxStatus.success());
       }
     } catch (error) {

@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/utilities/constants/key_value_pair.dart';
+import 'package:project/utilities/navigation/go_paths.dart';
+import 'package:project/utilities/navigation/my_navigator.dart';
 import 'package:project/utilities/theme/app_box_decoration.dart';
 import 'package:project/utilities/theme/app_colors.dart';
 import 'package:project/utilities/theme/asset_path.dart';
@@ -25,11 +28,11 @@ class _LoginWithNetworkState extends State<LoginWithNetwork> {
       value: "Sign In Using Facebook Account",
       path: AssetPath.fb,
     ),
-    KeyValuePair(
-      key: "apple",
-      value: "Sign In Using Apple Account",
-      path: AssetPath.apple,
-    ),
+    // KeyValuePair(
+    //   key: "apple",
+    //   value: "Sign In Using Apple Account",
+    //   path: AssetPath.apple,
+    // ),
   ];
 
   @override
@@ -87,11 +90,12 @@ class _LoginWithNetworkState extends State<LoginWithNetwork> {
                 );
               },
             ),
+            const SizedBox(height: 26),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your button press logic here
+                  MyNavigator.pushReplacementNamed(GoPaths.loginScreen);
                 },
                 // Button label
                 style: getElevatedButtonStyle(
@@ -113,16 +117,21 @@ class _LoginWithNetworkState extends State<LoginWithNetwork> {
               text: TextSpan(
                 children: [
                   TextSpan(
-                      text: 'New To brownpulp? ',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppColors.midGrey,
-                          )),
+                    text: 'New To brownpulp?   ',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.midGrey,
+                        ),
+                  ),
                   TextSpan(
-                      text: 'Register Now',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: AppColors.doggerBlule, fontWeight: FontWeight.w600)),
+                    recognizer: TapGestureRecognizer()..onTap = (() {
+                      MyNavigator.pushReplacementNamed(GoPaths.signUpView);
+                    }),
+                    text: 'Register Now',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.doggerBlule,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ],
               ),
               maxLines: 2,

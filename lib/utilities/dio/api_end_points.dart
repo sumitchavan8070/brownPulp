@@ -8,6 +8,7 @@ class APIEndPoints {
   //  api end points
 
   static String login = 'login';
+  static String signUp = 'signUp';
   static String dummyData = 'dymmyData';
   static String dashboard = 'dashboard';
   static String productDetail = 'productDetail';

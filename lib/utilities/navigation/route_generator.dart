@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:project/auth_module/forgot/forgot_pass_view.dart';
+import 'package:project/auth_module/forgot/pin_verification.dart';
+import 'package:project/auth_module/forgot/reset_password.dart';
 import 'package:project/auth_module/login_module/login_view.dart';
 import 'package:project/auth_module/login_module/login_with_network.dart';
 import 'package:project/auth_module/sign_up_module/sign_up_view.dart';
@@ -19,8 +22,8 @@ final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>(de
 final prefs = GetStorage();
 
 final GoRouter goRouterConfig = GoRouter(
-  // initialLocation: GoPaths.dashboard,
-  initialLocation: GlobalVars.isLoggedIn == true ? GoPaths.dashboard : GoPaths.loginScreen,
+  // initialLocation: GoPaths.loginWithNetwork,
+  initialLocation: GlobalVars.isLoggedIn == true ? GoPaths.dashboard : GoPaths.loginWithNetwork,
 
   navigatorKey: rootNavigatorKey,
   routes: [
@@ -56,6 +59,33 @@ final GoRouter goRouterConfig = GoRouter(
       name: GoPaths.dashboard,
       builder: (context, state) {
         return const DashBoardView();
+      },
+    ),
+
+
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: GoPaths.restPasswordScreen,
+      name: GoPaths.restPasswordScreen,
+      builder: (context, state) {
+        return const RestPasswordScreen();
+      },
+    ),
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: GoPaths.pinVerificationView,
+      name: GoPaths.pinVerificationView,
+      builder: (context, state) {
+        return const EnterPinView();
+      },
+    ),
+
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: GoPaths.forgotPasswordView,
+      name: GoPaths.forgotPasswordView,
+      builder: (context, state) {
+        return const ForgotPasswordView();
       },
     ),
 
@@ -127,11 +157,10 @@ final GoRouter goRouterConfig = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       path: GoPaths.chooseMockTestScreen,
       name: GoPaths.chooseMockTestScreen,
-
       builder: (context, state) {
         final extraParams = state.extra as Map<String, dynamic>; // Explicit casting
         final category = extraParams['category'];
-        return  ChooseCategory(category: category);
+        return ChooseCategory(category: category);
       },
     ),
 

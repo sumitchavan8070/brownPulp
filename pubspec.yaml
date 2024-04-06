@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: 2.0.4
   cached_network_image: 3.2.1
   flutter_slidable: ^3.0.1
+  firebase_auth: ^4.3.0
 
 
 
@@ -62,6 +63,8 @@ dependencies:
   firebase_dynamic_links: ^5.4.8
   firebase_performance: ^0.9.3+8
   lottie: ^2.7.0
+  fluttertoast: ^8.2.4
+  pinput: ^4.0.0
 
 
 dev_dependencies:

@@ -21,6 +21,11 @@ class AssetPath {
 
   static const String mail = "assets/svg_images/mail.svg";
   static const String mailEnabled = "assets/svg_images/mailEnabled.svg";
+  static const String inActiveUserName = "assets/svg_images/inActiveUserName.svg";
+  static const String activeUserName = "assets/svg_images/activeUserName.svg";
+
+  static const String activeCall = "assets/svg_images/activeCall.svg";
+  static const String inActiveCall = "assets/svg_images/inActiveCall.svg";
 
   static const String lockEnabled = "assets/svg_images/lockEnabled.svg";
   static const String lock = "assets/svg_images/lock.svg";

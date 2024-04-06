@@ -15,5 +15,8 @@ class GoPaths {
   static const String onboardingQuestions = '/onboardingQuestions';
   static const String chooseMockTestScreen = '/chooseMockTestScreen';
   static const String getDataFromCategoryName = '/getDataFromCategoryName';
+  static const String forgotPasswordView = '/forgotPasswordView';
+  static const String pinVerificationView = '/pinVerificationView';
+  static const String restPasswordScreen = '/restPasswordScreen';
 
 }
